@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinic Service Dashboard — Agent Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F7F9FC;
+    --card: #FFFFFF;
+    --card-alt: #EEF2F8;
+    --ink: #101828;
+    --ink-soft: #475467;
+    --ink-faint: #98A2B3;
+    --ink-fill: #0B1220;
+    --lime: #2563EB;
+    --lime-deep: #1D4ED8;
+    --lime-soft: #E0EAFD;
+    --violet: #7C3AED;
+    --violet-soft: #EDE4FC;
+    --blue: #0D9488;
+    --coral: #DC2626;
+    --coral-soft: #FBE1E0;
+    --amber: #B45309;
+    --amber-soft: #FBF0D8;
+    --line: #E4E7EC;
+    --line-strong: #D0D5DD;
+    --shadow: 0 1px 2px rgba(16,24,40,.05), 0 10px 26px -16px rgba(16,24,40,.14);
+    --shadow-lift: 0 2px 4px rgba(16,24,40,.07), 0 20px 40px -18px rgba(16,24,40,.20);
+    --glow-lime: 0 0 0 1px rgba(37,99,235,.20), 0 8px 24px -10px rgba(37,99,235,.32);
+    --glow-violet: 0 0 0 1px rgba(124,58,237,.20), 0 8px 24px -10px rgba(124,58,237,.32);
+    --gradient-brand: linear-gradient(120deg, var(--lime), var(--blue) 50%, var(--violet));
+
+    --body-gradient: linear-gradient(165deg, #FCFDFE 0%, #F3F6FB 32%, #EDF1F9 62%, #F5F1FA 100%);
+    --dot-color: rgba(16,24,40,.05);
+    --aurora-op-1: .14;
+    --aurora-op-2: .09;
+    --eyebrow-border: #C7D7FE;
+    --tab-hover-bg: #E4E9F2;
+    --tab-active-glow: rgba(37,99,235,.12);
+    --filterbar-bg: linear-gradient(135deg, rgba(255,255,255,.88), rgba(243,246,251,.82));
+    --disclaimer-text: #9C1F1F;
+    --disclaimer-border: #F0AAAA;
+    --chip-border: #C7D7FE;
+    --badge-weekday-border: #EEDBA3;
+    --pkg-banner-border: #D9C3F5;
+    --card-hover-border: #BFD3FC;
+    --pkg-card-hover-border: #D9C3F5;
+    --pkg-off-gradient: linear-gradient(120deg, var(--coral), #EF6B5A);
+    --pkg-off-text: #fff;
+    --quicknav-active-text: #fff;
+    --theme-toggle-icon: "🌙";
+  }
+  [data-theme="dark"]{
+    --paper: #0A0F1C;
+    --card: #121A2C;
+    --card-alt: #1A2338;
+    --ink: #F0F4FA;
+    --ink-soft: #AEB9CC;
+    --ink-faint: #67728C;
+    --ink-fill: #05070D;
+    --lime: #5B9DFF;
+    --lime-deep: #9AC4FF;
+    --lime-soft: #15233F;
+    --violet: #B79CFF;
+    --violet-soft: #241C3D;
+    --blue: #2DD4BF;
+    --coral: #F87171;
+    --coral-soft: #3A1719;
+    --amber: #FBBF24;
+    --amber-soft: #3A2E12;
+    --line: #1E2A3E;
+    --line-strong: #2C3B54;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 26px -16px rgba(0,0,0,.7);
+    --shadow-lift: 0 2px 4px rgba(0,0,0,.5), 0 20px 40px -16px rgba(0,0,0,.8);
+    --glow-lime: 0 0 0 1px rgba(91,157,255,.25), 0 8px 28px -8px rgba(91,157,255,.35);
+    --glow-violet: 0 0 0 1px rgba(183,156,255,.25), 0 8px 28px -8px rgba(183,156,255,.35);
+
+    --body-gradient: linear-gradient(165deg, #131A2E 0%, #0F1526 38%, #141A2C 68%, #0A0F1C 100%);
+    --dot-color: rgba(255,255,255,.05);
+    --aurora-op-1: .24;
+    --aurora-op-2: .12;
+    --eyebrow-border: rgba(91,157,255,.3);
+    --tab-hover-bg: #1A2338;
+    --tab-active-glow: rgba(91,157,255,.14);
+    --filterbar-bg: linear-gradient(135deg, rgba(24,32,50,.82), rgba(16,22,38,.78));
+    --disclaimer-text: #FFB0AC;
+    --disclaimer-border: #6B2C2C;
+    --chip-border: #2A3A5A;
+    --badge-weekday-border: #5A4520;
+    --pkg-banner-border: #4A3D73;
+    --card-hover-border: rgba(91,157,255,.4);
+    --pkg-card-hover-border: rgba(183,156,255,.4);
+    --pkg-off-gradient: linear-gradient(120deg, var(--coral), #E8A090);
+    --pkg-off-text: #1A0808;
+    --quicknav-active-text: var(--ink-fill);
+    --theme-toggle-icon: "☀️";
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ overflow-x: hidden; }
+  ::-webkit-scrollbar{ width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track{ background: transparent; }
+  ::-webkit-scrollbar-thumb{ background: var(--line-strong); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover{ background: var(--ink-faint); }
+  html{ scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+  html{ transition: background .25s ease; }
+  body{
+    background: var(--body-gradient);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    transition: color .2s ease;
+  }
+  #bodyZone{
+    background:
+      radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0),
+      var(--body-gradient);
+    background-size: 24px 24px, 100% 100%;
+    padding-top: 1px;
+    padding-bottom: 60px;
+    color: var(--ink);
+  }
+  .wrap{ max-width: 1280px; margin: 0 auto; padding: 0 28px; }
+
+  /* ============ THEME TOGGLE ============ */
+  .theme-toggle{
+    position: fixed; top: 20px; right: 24px; z-index: 50;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--card); border: 1.5px solid var(--line); box-shadow: var(--shadow-lift);
+    cursor: pointer; display:flex; align-items:center; justify-content:center;
+    font-size: 18px; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .theme-toggle:hover{ transform: scale(1.08); box-shadow: var(--shadow-lift), var(--glow-lime); }
+
+  /* ============ HEADER — aurora hero (theme-aware) ============ */
+  header{
+    background:
+      radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0),
+      var(--body-gradient);
+    background-size: 24px 24px, 100% 100%;
+    color: var(--ink);
+    padding: 40px 0 92px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  header::before{
+    content:"";
+    position:absolute; right:-180px; top:-220px;
+    width: 620px; height: 620px; border-radius: 50%;
+    background: conic-gradient(from 200deg, var(--lime), var(--blue) 40%, var(--violet) 70%, var(--coral) 90%, var(--lime) 100%);
+    opacity: var(--aurora-op-1);
+    filter: blur(60px);
+  }
+  header::after{
+    content:"";
+    position:absolute; left:-120px; bottom:-180px;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: radial-gradient(circle, var(--violet), transparent 70%);
+    opacity: var(--aurora-op-2);
+    filter: blur(40px);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--lime-deep); margin-bottom: 14px; display:inline-flex; align-items:center; gap:8px;
+    background: var(--lime-soft); padding: 6px 12px 6px 10px; border-radius: 999px;
+    position: relative; z-index: 2; border: 1px solid var(--eyebrow-border);
+  }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background: var(--lime-deep); }
+  h1{
+    font-family: 'Manrope', sans-serif; font-weight: 800;
+    font-size: clamp(30px, 4.4vw, 44px);
+    margin: 0 0 10px; letter-spacing: -0.025em; line-height: 1.04;
+    position: relative; z-index: 2; max-width: 640px;
+    background: linear-gradient(100deg, var(--ink) 20%, var(--lime-deep) 65%, var(--blue) 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header p.sub{ margin:0; color: var(--ink-soft); font-size: 15px; max-width: 560px; line-height:1.55; position: relative; z-index:2; }
+  .validity-strip{
+    margin-top: 24px; display:inline-flex; align-items:center; gap: 10px;
+    background: var(--card); opacity: .92; backdrop-filter: blur(10px); border:1.5px dashed var(--line-strong);
+    padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    color: var(--ink); position: relative; z-index: 2; box-shadow: var(--shadow);
+  }
+
+  /* ============ TABS — folder-divider look ============ */
+  .tabnav{
+    display:flex; gap:6px; margin-top:-58px; position:relative; z-index:6; padding: 0 2px 0;
+  }
+  .tab-btn{
+    font-family:'Manrope', sans-serif; font-weight:700; font-size:14px;
+    padding:13px 24px 12px; border:none;
+    background: var(--card-alt); color: var(--ink-faint); cursor:pointer;
+    transition: all .15s;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    margin-right: -8px;
+    position: relative;
+  }
+  .tab-btn:nth-child(1){ z-index: 3; }
+  .tab-btn:nth-child(2){ z-index: 2; }
+  .tab-btn:nth-child(3){ z-index: 1; }
+  .tab-btn.active{
+    background: var(--card); color: var(--ink); box-shadow: 0 -2px 16px var(--tab-active-glow);
+    z-index: 5 !important;
+  }
+  .tab-btn:hover:not(.active){ color: var(--ink); background: var(--tab-hover-bg); }
+
+  /* ============ FILTER BAR ============ */
+  .filterbar{
+    background: var(--filterbar-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid var(--line);
+    border-radius: 4px 16px 16px 16px;
+    box-shadow: var(--shadow-lift);
+    padding: 20px 22px;
+    position: relative; z-index: 5;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr auto;
+    gap: 14px;
+    align-items: end;
+  }
+  .field label{
+    display:block; font-family:'JetBrains Mono', monospace; font-size: 10.5px; font-weight:600; text-transform: uppercase;
+    letter-spacing:.07em; color: var(--ink-faint); margin-bottom: 7px;
+  }
+  .field input, .field select{
+    width: 100%; padding: 11px 13px; border-radius: 9px;
+    border: 1.5px solid var(--line); background: var(--paper);
+    font-family: 'Inter', sans-serif; font-size: 14.5px; color: var(--ink);
+    outline: none; transition: border-color .15s, background .15s;
+    appearance: none;
+  }
+  .field.select-wrap{ position:relative; }
+  .field.select-wrap::after{
+    content:"▾"; position:absolute; right:14px; bottom:12px; color: var(--lime-deep); font-size:12px; pointer-events:none;
+  }
+  .field input:focus, .field select:focus{ border-color: var(--lime-deep); background: var(--card); box-shadow: 0 0 0 3px var(--lime-soft); }
+  .clear-btn{
+    padding: 11px 18px; border-radius: 9px; border: 1.5px solid var(--line);
+    background: var(--paper); color: var(--ink-soft); font-weight:700; font-size: 13px;
+    cursor:pointer; transition: all .15s; white-space:nowrap;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .clear-btn:hover{ border-color: var(--coral); color: var(--coral); background: var(--coral-soft); }
+
+  .meta-row{
+    display:flex; align-items:center; justify-content: space-between;
+    margin-top: 22px; margin-bottom: 4px; flex-wrap: wrap; gap: 10px;
+  }
+  .count{ font-size: 14px; color: var(--ink-soft); font-weight: 500; }
+  .count b{ color: var(--ink); font-weight: 700; }
+  .disclaimer{
+    margin-top: 26px; padding: 13px 18px; border-radius: 10px;
+    background: var(--coral-soft); color: var(--disclaimer-text); border: 1.5px dashed var(--disclaimer-border);
+    font-size: 13.5px; font-weight: 600; text-align:center;
+  }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; padding: 5px 10px;
+    background: var(--lime-soft); color: var(--lime-deep); border-radius: 7px; font-weight:700;
+    display:flex; align-items:center; gap:6px; border: 1px solid var(--chip-border);
+  }
+  .chip button{
+    border:none; background:none; color: var(--lime-deep); cursor:pointer; font-size:13px; line-height:1; padding:0;
+    opacity:.6;
+  }
+  .chip button:hover{ opacity:1; }
+
+  /* ============ CLINIC GROUPS ============ */
+  .clinic-group{ margin-top: 34px; }
+  .clinic-head{
+    display:flex; align-items: baseline; gap: 12px; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+  }
+  .clinic-head h2{
+    font-family:'Manrope', sans-serif; font-size: 20px; font-weight: 800; margin:0;
+    color: var(--ink);
+  }
+  .clinic-head .n{
+    font-family:'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-soft); font-weight: 600;
+    background: var(--paper); border:1px solid var(--line); padding: 3px 9px; border-radius: 999px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  /* ============ OFFER CARD — ticket-stub styling ============ */
+  .card{
+    background: linear-gradient(160deg, var(--card), var(--card-alt));
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display:flex; flex-direction:column;
+    transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+    position: relative;
+  }
+  .card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: linear-gradient(180deg, var(--lime), var(--blue));
+  }
+  .card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-lift), var(--glow-lime); border-color: var(--card-hover-border); }
+
+  .card-top{
+    padding: 16px 16px 13px 20px;
+    display:flex; align-items:flex-start; justify-content: space-between; gap: 10px;
+  }
+  .service-tag{
+    font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing:.05em;
+    background: var(--lime-soft); color: var(--lime-deep); padding: 4px 9px; border-radius: 6px;
+  }
+  .head-tag{ font-size: 10.5px; color: var(--ink-faint); font-weight:700; font-family:'JetBrains Mono', monospace; }
+  .discount{
+    font-family:'Manrope', sans-serif; font-weight: 800; font-size: 22px;
+    margin: 0 16px 4px 20px; line-height: 1.1;
+    background: linear-gradient(100deg, var(--lime-deep), var(--blue) 70%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .code-row{
+    margin: 0 16px 12px 20px; display:flex; align-items:center; gap:8px;
+  }
+  .code{
+    font-family:'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    background: var(--ink-fill); color: var(--lime); padding: 4px 9px; border-radius: 6px;
+    letter-spacing: .03em;
+  }
+  .divider{
+    border-top: 1.5px dashed var(--line-strong); position: relative; margin: 0 0;
+  }
+  .divider::before, .divider::after{
+    content:""; position:absolute; top:-7px; width:14px; height:14px; background: var(--paper);
+    border-radius: 50%; border: 1.5px solid var(--line-strong);
+  }
+  .divider::before{ left:-7px; }
+  .divider::after{ right:-7px; }
+
+  .card-body{ padding: 13px 16px 16px 20px; flex:1; display:flex; flex-direction:column; gap:9px; }
+  .details{ font-size: 13.5px; color: var(--ink); line-height: 1.5; }
+  .attr-row{ display:flex; gap: 8px; font-size: 12.5px; }
+  .attr-row .k{ color: var(--ink-faint); min-width: 68px; font-weight:700; flex-shrink:0; font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.03em; }
+  .attr-row .v{ color: var(--ink); }
+  .attr-row .v.oncall-yes{ color: var(--lime-deep); font-weight:700; }
+  .attr-row .v.oncall-cond{ color: var(--amber); font-weight:600; }
+
+  .card-foot{
+    margin-top: auto; padding: 10px 16px 14px 20px; border-top: 1px solid var(--line);
+    display:flex; align-items:center; justify-content: space-between;
+  }
+  .validity-badge{
+    font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+    background: var(--paper); color: var(--ink-soft); border: 1px solid var(--line);
+    text-transform: uppercase; letter-spacing: .03em;
+  }
+  .validity-badge.weekday{ background: var(--amber-soft); color: var(--amber); border-color: var(--badge-weekday-border); }
+  .validity-badge.all{ background: var(--lime-soft); color: var(--lime-deep); border-color: var(--chip-border); }
+
+  .empty-state{
+    text-align:center; padding: 80px 20px; color: var(--ink-soft);
+  }
+  .empty-state .big{ font-size: 42px; margin-bottom: 12px; }
+  .empty-state h3{ font-family:'Manrope',sans-serif; color: var(--ink); margin: 0 0 6px; font-weight:800; }
+
+  footer{
+    text-align:center; padding: 34px 20px 10px; color: var(--ink-faint); font-size: 12.5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ============ PACKAGES VIEW ============ */
+  .pkg-banner{
+    margin-top: 4px; margin-bottom: 20px; padding: 11px 18px; border-radius: 10px;
+    background: var(--violet-soft); color: var(--violet); border: 1.5px dashed var(--pkg-banner-border);
+    font-size: 13.5px; font-weight: 700; text-align:center;
+  }
+  .pkg-quicknav{ display:flex; gap:10px; flex-wrap:wrap; margin: 20px 0 20px; align-items:center; }
+  .pkg-quicknav-btn{
+    font-family:'Manrope', sans-serif; font-weight:700; font-size:13.5px;
+    padding:10px 20px; border-radius:999px; border:1.5px solid var(--line-strong);
+    background:var(--card); color:var(--ink-soft); cursor:pointer; transition: all .15s;
+  }
+  .pkg-quicknav-btn:hover{ border-color: var(--ink); color: var(--ink); }
+  .pkg-quicknav-btn.active{ background: var(--gradient-brand); border-color: transparent; color: var(--quicknav-active-text); box-shadow: var(--shadow), var(--glow-lime); font-weight: 800; }
+
+  .svc-price-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:14px; margin-bottom: 8px; }
+  .svc-price-card{
+    background: linear-gradient(160deg, var(--card), var(--card-alt)); border:1.5px solid var(--line); border-radius:14px;
+    box-shadow: var(--shadow); padding:19px 19px 17px; position: relative; overflow:hidden;
+  }
+  .svc-price-card::after{
+    content:""; position:absolute; right:-26px; top:-26px; width:64px; height:64px; border-radius:50%;
+    background: var(--lime-soft);
+  }
+  .svc-price-card .svc-name{ font-family:'Manrope', sans-serif; font-weight:700; font-size:16px; color:var(--ink); margin:0 0 4px; position:relative; }
+  .svc-price-card .svc-price{ font-family:'Manrope', sans-serif; font-weight:800; font-size:27px; margin: 6px 0; position:relative; background: linear-gradient(100deg, var(--lime-deep), var(--blue) 75%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .svc-price-card .svc-desc{ font-size:12.5px; color:var(--ink-soft); line-height:1.55; position:relative; }
+  .svc-price-card .svc-tag{
+    display:inline-block; font-size:10.5px; font-weight:800; text-transform:uppercase;
+    background:var(--ink-fill); color:var(--lime); padding:3px 9px; border-radius:999px; margin-bottom:9px; position:relative;
+  }
+  .pkg-group{ margin-top: 34px; }
+  .pkg-group-head{
+    display:flex; align-items:baseline; gap:12px; margin-bottom:6px;
+    padding-bottom:10px; border-bottom:2px solid var(--ink); flex-wrap:wrap;
+  }
+  .pkg-group-head h2{ font-family:'Manrope', sans-serif; font-size:19px; font-weight:800; margin:0; color:var(--ink); }
+  .pkg-group-head .bestseller-badge{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; font-weight:700; text-transform:uppercase;
+    background: var(--violet-soft); color: var(--violet); padding:3px 9px; border-radius:999px;
+  }
+  .pkg-group-note{ font-size:13px; color:var(--ink-soft); margin: 0 0 14px; line-height:1.55; }
+  .pkg-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:14px; }
+  .pkg-card{
+    background: linear-gradient(160deg, var(--card), var(--card-alt)); border:1.5px solid var(--line); border-radius:14px;
+    box-shadow: var(--shadow); overflow:hidden; display:flex; flex-direction:column;
+    transition: transform .14s ease, box-shadow .14s ease; position: relative;
+  }
+  .pkg-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: linear-gradient(180deg, var(--violet), var(--blue));
+  }
+  .pkg-card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-lift), var(--glow-violet); border-color: var(--pkg-card-hover-border); }
+  .pkg-card-top{ padding:16px 16px 6px 20px; display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .pkg-name{ font-family:'Manrope', sans-serif; font-weight:700; font-size:15px; color:var(--ink); margin:0; }
+  .pkg-off{ font-size:10.5px; font-weight:800; background: var(--pkg-off-gradient); color: var(--pkg-off-text); padding:4px 8px; border-radius:6px; white-space:nowrap; }
+  .pkg-audience{ font-size:12px; color:var(--ink-soft); margin: 2px 16px 10px 20px; }
+  .pkg-price-row{ margin: 0 16px 10px 20px; display:flex; align-items:baseline; gap:8px; }
+  .pkg-price{ font-family:'Manrope', sans-serif; font-weight:800; font-size:21px; background: linear-gradient(100deg, var(--violet), var(--blue) 75%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pkg-mrp{ font-size:13px; color:var(--ink-faint); text-decoration: line-through; }
+  .pkg-sku{ margin:0 16px 10px 20px; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-faint); }
+  .pkg-divider{ border-top:1.5px dashed var(--line-strong); }
+  .pkg-body{ padding:12px 16px 16px 20px; flex:1; display:flex; flex-direction:column; gap:6px; }
+  .pkg-body ul{ margin:0; padding-left:18px; font-size:12.5px; color:var(--ink); line-height:1.6; }
+  .pkg-perk{ margin-top:6px; font-size:12px; font-weight:700; color:var(--lime-deep); background:var(--lime-soft); padding:7px 10px; border-radius:8px; }
+
+  .pkg-table-wrap{ overflow-x:auto; border:1.5px solid var(--line); border-radius:12px; background:var(--card); box-shadow: var(--shadow); }
+  table.pkg-table{ border-collapse:collapse; width:100%; font-size:13px; }
+  table.pkg-table th{
+    background: var(--ink-fill); color:var(--lime); text-align:left; padding:11px 12px; font-weight:700;
+    font-family:'Manrope', sans-serif; font-size:12.5px; white-space:nowrap;
+  }
+  table.pkg-table td{ padding:10px 12px; border-top:1px solid var(--line); color:var(--ink); white-space:nowrap; }
+  table.pkg-table tr:nth-child(odd) td{ background: var(--card-alt); }
+  .pkg-savings-badge{
+    display:inline-block; margin-left:10px; font-size:11px; font-weight:800;
+    background: var(--amber-soft); color: var(--amber); padding:3px 9px; border-radius:999px;
+  }
+
+  /* GROOMING GUIDELINES — advisory cards */
+  .guideline-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+  .guideline-card{
+    background: linear-gradient(160deg, var(--card), var(--card-alt)); border:1.5px solid var(--line); border-radius:14px;
+    box-shadow: var(--shadow); padding:18px 19px; position:relative; overflow:hidden;
+  }
+  .guideline-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: linear-gradient(180deg, var(--amber), var(--coral));
+  }
+  .guideline-icon{
+    font-size:22px; width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+    background: var(--amber-soft); border-radius:10px; margin-bottom:12px;
+  }
+  .guideline-title{ font-family:'Manrope', sans-serif; font-weight:700; font-size:15px; color:var(--ink); margin-bottom:9px; }
+  .guideline-points{ margin:0; padding-left:18px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
+  .guideline-points li{ margin-bottom:5px; }
+  .guideline-points li:last-child{ margin-bottom:0; }
+
+  @media (max-width: 860px){
+    .filterbar{ grid-template-columns: 1fr 1fr; }
+    .filterbar .clear-btn{ grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px){
+    .filterbar{ grid-template-columns: 1fr; }
+    .wrap{ padding: 0 16px; }
+    .tab-btn{ padding: 12px 16px 11px; font-size: 13px; }
+    .theme-toggle{ top: 12px; right: 12px; width: 38px; height: 38px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle light/dark theme"></button>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> AGENT REFERENCE</div>
+    <h1>Clinic Service Dashboard</h1>
+    <div class="validity-strip">🗓️ Validity window: 1st September '26 – 30th September '26</div>
+  </div>
+</header>
+
+<div id="bodyZone" data-theme="dark">
+<div class="wrap">
+  <div class="tabnav">
+    <button class="tab-btn active" id="tabOffersBtn">Discounts</button>
+    <button class="tab-btn" id="tabPackagesBtn">Packages</button>
+    <button class="tab-btn" id="tabServicesBtn">Services</button>
+    <button class="tab-btn" id="tabPocBtn">Clinic POC</button>
+    <button class="tab-btn" id="tabLocationBtn">Clinic Location</button>
+  </div>
+
+  <div id="offersView">
+  <div class="filterbar">
+    <div class="field">
+      <label for="search">Search offer, code or keyword</label>
+      <input id="search" type="text" placeholder="e.g. grooming, STPLUS, birthday...">
+    </div>
+    <div class="field select-wrap">
+      <label for="clinicFilter">Clinic</label>
+      <select id="clinicFilter"><option value="">All clinics</option></select>
+    </div>
+    <div class="field select-wrap">
+      <label for="serviceFilter">Service</label>
+      <select id="serviceFilter"><option value="">All services</option></select>
+    </div>
+    <button class="clear-btn" id="clearBtn">Clear filters</button>
+  </div>
+
+  <div class="meta-row">
+    <div class="chips" id="activeChips"></div>
+  </div>
+
+  <div id="results"></div>
+  </div>
+
+  <div id="packagesView" style="display:none">
+    <div class="pkg-quicknav" id="pkgQuickNav">
+      <button class="pkg-quicknav-btn active" data-cat="">All Packages</button>
+      <button class="pkg-quicknav-btn" data-cat="Wellness">🩺 Wellness Packages</button>
+      <button class="pkg-quicknav-btn" data-cat="Grooming">✂️ Grooming Packages</button>
+    </div>
+    <div class="filterbar" style="grid-template-columns: 1.4fr 1fr 1fr auto;">
+      <div class="field">
+        <label for="pkgSearch">Search package or SKU</label>
+        <input id="pkgSearch" type="text" placeholder="e.g. senior care, grooming, spay...">
+      </div>
+      <div class="field select-wrap">
+        <label for="pkgCategoryFilter">Category</label>
+        <select id="pkgCategoryFilter">
+          <option value="">All Packages</option>
+          <option value="Wellness">Wellness Packages</option>
+          <option value="Grooming">Grooming Packages</option>
+        </select>
+      </div>
+      <div class="field select-wrap">
+        <label for="pkgGroupFilter">Package</label>
+        <select id="pkgGroupFilter"><option value="">All</option></select>
+      </div>
+      <button class="clear-btn" id="pkgClearBtn">Clear filters</button>
+    </div>
+
+    <div class="pkg-banner">📍 These packages are the same across every Supertails+ clinic — not clinic-specific.</div>
+
+    <div id="pkgResults"></div>
+  </div>
+
+  <div id="servicesView" style="display:none">
+    <div class="pkg-quicknav" id="svcQuickNav">
+      <button class="pkg-quicknav-btn active" data-svc="Consultation">🩺 Consultation</button>
+      <button class="pkg-quicknav-btn" data-svc="Vaccination">💉 Vaccination</button>
+      <button class="pkg-quicknav-btn" data-svc="Grooming">✂️ Grooming</button>
+    </div>
+    <div class="pkg-banner">📍 Standalone service pricing — same across every Supertails+ clinic. Use Packages for bundled combos.</div>
+    <div id="svcResults"></div>
+  </div>
+
+  <div id="pocView" style="display:none">
+    <div class="filterbar" style="grid-template-columns: 1fr auto;">
+      <div class="field">
+        <label for="pocSearch">Search clinic</label>
+        <input id="pocSearch" type="text" placeholder="e.g. Koramangala, Whitefield...">
+      </div>
+      <button class="clear-btn" id="pocClearBtn">Clear</button>
+    </div>
+    <div class="pkg-banner">📞 If a clinic's line isn't picking up, escalate in order: Clinic Manager → Zonal Head → City Operations Head → HOD. Calls only reach up to the Clinic Manager — escalate to Zonal Head and above by email.</div>
+    <div id="pocResults"></div>
+  </div>
+
+  <div id="locationView" style="display:none">
+    <div class="filterbar" style="grid-template-columns: 1fr auto;">
+      <div class="field">
+        <label for="locSearch">Search clinic</label>
+        <input id="locSearch" type="text" placeholder="e.g. Koramangala, Whitefield...">
+      </div>
+      <button class="clear-btn" id="locClearBtn">Clear</button>
+    </div>
+    <div class="pkg-banner">📍 Addresses, operating hours, and directions for every Supertails+ clinic.</div>
+    <div id="locResults"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="disclaimer">⚠️ Offers cannot be clubbed together.</div>
+</div>
+
+<footer>Data sourced from Offers – Clinics sheet · Built for internal agent use</footer>
+</div>
+
+<script>
+// ─── LIVE OFFERS DATA — auto-fetched from Google Sheet ────────
+// Sheet: https://docs.google.com/spreadsheets/d/1hDAiCux-EuabqWZQHzRsqMiobj5rVbt_09J41iMf8d4
+// To update offers: edit the sheet → the dashboard auto-refreshes every load.
+// IMPORTANT: The URL below is the "Publish to web" CSV link.
+// To get it: File → Share → Publish to web → Sheet1 → Comma-separated values → Publish → copy URL
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSQADeOv5SikQdVHtQKugtdLsGWJ9kzz2NuBU5JNAG3dJ8yZtRuHAM84JSbFAp94K3PJf0wENBisZpD/pub?gid=2061702951&single=true&output=csv';
+
+let OFFERS_DATA = [];
+
+function parseCSV(csv) {
+  const lines = csv.trim().split('\n');
+  if (lines.length < 2) return [];
+  // parse headers from row 1
+  function splitRow(row) {
+    const out = []; let cur = '', inQ = false;
+    for (let i = 0; i < row.length; i++) {
+      const c = row[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { out.push(cur); cur = ''; }
+      else cur += c;
+    }
+    out.push(cur); return out;
+  }
+  const headers = splitRow(lines[0]).map(h => h.replace(/^"|"$/g,'').trim().toLowerCase().replace(/ /g,'_'));
+  return lines.slice(1).map(line => {
+    const vals = splitRow(line);
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = (vals[i]||'').replace(/^"|"$/g,'').trim(); });
+    return obj;
+  }).filter(r => r.clinic || r.offer_name);
+}
+
+async function loadOffersData() {
+  const url = SHEET_CSV_URL + '&t=' + Date.now();
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const csv = await res.text();
+    // If we get back an HTML page it means the sheet isn't published yet
+    if (!csv || csv.trim().startsWith('<')) {
+      console.error('Got HTML instead of CSV — sheet is not published to web');
+      return false;
+    }
+    OFFERS_DATA = parseCSV(csv);
+    return OFFERS_DATA.length > 0;
+  } catch(e) {
+    console.error('Could not load offers:', e);
+    return false;
+  }
+}
+</script>
+<script>
+(function(){
+  const searchEl = document.getElementById('search');
+  const clinicEl = document.getElementById('clinicFilter');
+  const serviceEl = document.getElementById('serviceFilter');
+  const clearBtn = document.getElementById('clearBtn');
+  const resultsEl = document.getElementById('results');
+  const chipsEl = document.getElementById('activeChips');
+
+  const clinics = [...new Set(OFFERS_DATA.map(d => d.clinic))].sort();
+  const services = ['Grooming', 'Consultation', 'Vaccination'];
+
+  clinics.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    clinicEl.appendChild(o);
+  });
+  services.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    serviceEl.appendChild(o);
+  });
+
+  function validityClass(v){
+    const lv = (v||'').toLowerCase();
+    if(lv.includes('weekday')) return 'weekday';
+    if(lv.includes('all')) return 'all';
+    return '';
+  }
+  function oncallClass(v){
+    const lv = (v||'').toLowerCase();
+    if(lv === 'yes' || lv.includes('all customers')) return 'oncall-yes';
+    if(lv.includes('if') || lv.includes('new')) return 'oncall-cond';
+    return '';
+  }
+
+  function render(){
+    const q = searchEl.value.trim().toLowerCase();
+    const clinic = clinicEl.value;
+    const service = serviceEl.value;
+
+    let filtered = OFFERS_DATA.filter(d => {
+      if(clinic && d.clinic !== clinic) return false;
+      if(service && d.service !== service) return false;
+      if(q){
+        const hay = [d.clinic, d.offer_head, d.service, d.offer_name, d.discount, d.details, d.cohort, d.oncall, d.validity].join(' ').toLowerCase();
+        if(!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    // chips
+    chipsEl.innerHTML = '';
+    if(clinic) addChip('Clinic: ' + clinic, () => { clinicEl.value=''; render(); });
+    if(service) addChip('Service: ' + service, () => { serviceEl.value=''; render(); });
+    if(q) addChip('“' + searchEl.value.trim() + '”', () => { searchEl.value=''; render(); });
+
+    if(filtered.length === 0){
+      resultsEl.innerHTML = `<div class="empty-state"><div class="big">🔎</div><h3>No offers match</h3><p>Try clearing a filter or checking the spelling of your search.</p></div>`;
+      return;
+    }
+
+    // group by clinic in original data order (unless a specific clinic filter is set)
+    const groups = {};
+    const order = [];
+    filtered.forEach(d => {
+      if(!groups[d.clinic]){ groups[d.clinic] = []; order.push(d.clinic); }
+      groups[d.clinic].push(d);
+    });
+
+    resultsEl.innerHTML = order.map(cname => {
+      const items = groups[cname];
+      return `
+        <div class="clinic-group">
+          <div class="clinic-head">
+            <h2>${escapeHtml(cname)}</h2>
+            <span class="n">${items.length} offer${items.length>1?'s':''}</span>
+          </div>
+          <div class="grid">
+            ${items.map(cardHtml).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function addChip(label, onRemove){
+    const c = document.createElement('div');
+    c.className = 'chip';
+    c.innerHTML = `<span></span><button aria-label="remove">✕</button>`;
+    c.querySelector('span').textContent = label;
+    c.querySelector('button').addEventListener('click', onRemove);
+    chipsEl.appendChild(c);
+  }
+
+  function cardHtml(d){
+    const vClass = validityClass(d.validity);
+    const oClass = oncallClass(d.oncall);
+    return `
+      <div class="card">
+        <div class="card-top">
+          <span class="service-tag">${escapeHtml(d.service || '—')}</span>
+          <span class="head-tag">${escapeHtml(d.offer_head || '')}</span>
+        </div>
+        <div class="discount">${escapeHtml(d.discount || '—')}</div>
+        <div class="code-row">
+          <span class="code">${escapeHtml(d.offer_name || 'NO CODE')}</span>
+        </div>
+        <div class="divider"></div>
+        <div class="card-body">
+          <div class="details">${escapeHtml(d.details || '')}</div>
+          <div class="attr-row"><span class="k">On-call?</span><span class="v ${oClass}">${escapeHtml(d.oncall || '—')}</span></div>
+          <div class="attr-row"><span class="k">Eligible</span><span class="v">${escapeHtml(d.cohort || '—')}</span></div>
+          <div class="card-foot">
+            <span class="validity-badge ${vClass}">${escapeHtml(d.validity || '—')}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  searchEl.addEventListener('input', render);
+  clinicEl.addEventListener('change', render);
+  serviceEl.addEventListener('change', render);
+  clearBtn.addEventListener('click', () => { searchEl.value=''; clinicEl.value=''; serviceEl.value=''; render(); });
+
+  // ── Boot: fetch live data then render ──
+  (async () => {
+    resultsEl.innerHTML = '<div class="empty-state"><div class="big">⏳</div><h3>Loading offers…</h3><p>Fetching latest data from the Google Sheet.</p></div>';
+    const ok = await loadOffersData();
+    if (!ok) {
+      resultsEl.innerHTML = '<div class="empty-state"><div class="big">⚠️</div><h3>Could not load offers from sheet</h3><p>Steps to fix:<br><br>1. Open the Google Sheet<br>2. Click <b>File → Share → Publish to web</b><br>3. Change dropdown from "Web page" to <b>Comma-separated values (.csv)</b><br>4. Tick <b>"Automatically republish when changes are made"</b><br>5. Click <b>Publish</b> → then refresh this page</p></div>';
+      return;
+    }
+    // Repopulate filter dropdowns from live data
+    const liveClinics = [...new Set(OFFERS_DATA.map(d => d.clinic))].sort();
+    clinicEl.innerHTML = '<option value="">All clinics</option>';
+    liveClinics.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; clinicEl.appendChild(o); });
+    const liveSvcs = [...new Set(OFFERS_DATA.map(d => d.service))].sort();
+    serviceEl.innerHTML = '<option value="">All services</option>';
+    liveSvcs.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; serviceEl.appendChild(o); });
+    render();
+  })();
+})();
+</script>
+
+<script>
+const WELLNESS_PACKAGES = [{"group": "First Shield", "note": "Early essentials: from vaccines, deworming, and vet check-ups. Valid for 1 year from the date of purchase.", "items": [{"name": "First Shield Kitten", "sku": "COMBO0016STOF", "audience": "Kittens below 6 months of age", "price": 4599, "mrp": 8391, "off": "45% OFF", "inclusions": ["CRP - 3-in-1 Feline Core Vaccine (3 Doses)", "ARV - Anti Rabies Vaccine (2 Doses)", "Vet Consultation (4 Sessions)", "Deworming (4 Sessions)"], "perk": "Additional Perk: Flat 15% off on all clinical services"}, {"name": "First Shield Puppy", "sku": "COMBO0017STOF", "audience": "Puppies below 6 months of age", "price": 4599, "mrp": 8391, "off": "45% OFF", "inclusions": ["DHPPi/L - Canine Core Vaccine (3 Doses)", "ARV - Anti Rabies Vaccine (2 Doses)", "Vet Consultation (4 Sessions)", "Deworming (4 Sessions)"], "perk": "Additional Perk: Flat 15% off on all clinical services"}]}, {"group": "Lifelong Wellness", "note": "Age-specific care: vaccines, diagnostics, consultations, and screenings. Valid for 1 year from the date of purchase.", "items": [{"name": "Foundation Care", "sku": "Cat: COMBO0020STOF \u00b7 Dog: COMBO0021STOF", "audience": "Newborn pets below 8 months of age", "price": 6499, "mrp": 10941, "off": "40% OFF", "inclusions": ["CRP / DHPPi/L - Core Vaccine (3 Doses)", "ARV - Anti Rabies Vaccine (2 Doses)", "Vet Consultation (4 Sessions)", "Deworming (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test"]}, {"name": "Active Care", "sku": "Cat: COMBO0018STOF \u00b7 Dog: COMBO0019STOF", "audience": "Adult pets between 1-8 years of age", "price": 4299, "mrp": 8444, "off": "50% OFF", "inclusions": ["CRP / DHPPi/L - Core Vaccine", "ARV - Anti Rabies Vaccine", "Vet Consultation (4 Sessions)", "Deworming (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test", "Urine Analysis"]}, {"name": "Senior Care", "sku": "Cat: COMBO0022STOF \u00b7 Dog: COMBO0023STOF", "audience": "Senior pets more than 7 years of age", "price": 8999, "mrp": 14743, "off": "40% OFF", "inclusions": ["CRP / DHPPi/L - Core Vaccine", "ARV - Anti Rabies Vaccine", "Vet Consultation (4 Sessions)", "Deworming (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT Advance - Liver Function Test", "KFT Advance - Kidney Function Test", "Urine Analysis", "Thyroid Test", "Full Abdominal Ultrasound"]}]}, {"group": "Annual Health Checks", "note": "Monitor their health yearly with routine checks and expert care. Valid for 1 year from the date of purchase.", "items": [{"name": "Essential Health Check", "sku": "Cat: COMBO0024STOF \u00b7 Dog: COMBO0025STOF", "audience": "For newborn & adult pets", "price": 2199, "mrp": 5546, "off": "60% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "Deworming (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test"]}, {"name": "Complete Health Check", "sku": "Cat: COMBO0026STOF \u00b7 Dog: COMBO0027STOF", "audience": "For senior pets", "price": 6999, "mrp": 12745, "off": "45% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "Deworming (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT Advance - Liver Function Test", "KFT Advance - Kidney Function Test", "Urine Analysis Advance", "Thyroid Test", "Full Abdominal Ultrasound"]}]}, {"group": "Safe Surgery", "note": "Year-round health monitoring with routine checks and diagnostics. Valid for 1 year. Pack also includes: 15% off on Pharma \u00b7 15% off on Post-op requirement \u00b7 15% off on Blood tests if re-test required.", "items": [{"name": "Cat Neuter Surgery", "sku": "COMBO0012STOF", "audience": "For Male Cat", "price": 6999, "mrp": 9945, "off": "30% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test", "Neuter Surgery"]}, {"name": "Cat Spay Surgery", "sku": "COMBO0013STOF", "audience": "For Female Cat", "price": 9999, "mrp": 12945, "off": "30% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test", "Spay Surgery"]}, {"name": "Dog Neuter Surgery", "sku": "COMBO0014STOF", "audience": "For Male Dog", "price": 8999, "mrp": 12945, "off": "30% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test", "Neuter Surgery"]}, {"name": "Dog Spay Surgery", "sku": "COMBO0015STOF", "audience": "For Female Dog", "price": 9999, "mrp": 14945, "off": "30% OFF", "inclusions": ["Vet Consultation (4 Sessions)", "CBC - Complete Blood Cell Count", "LFT - Liver Function Test", "KFT - Kidney Function Test", "Spay Surgery"]}]}];
+const GROOMING_PACKAGE_CARDS = [{"group": "Clean & Dry", "note": "Dry shampoo includes: application & light freshening. Bath & Dry includes: bath, conditioning & blow dry & soft brushing.", "items": [{"name": "Dry Shampoo Bath", "audience": "Puppies", "price": 719}, {"name": "Dry Shampoo Bath", "audience": "Kittens", "price": 819}, {"name": "Bath & Dry", "audience": "Cats", "price": 999}, {"name": "Bath & Dry", "audience": "Small Dogs (<10 kg)", "price": 819}, {"name": "Bath & Dry", "audience": "Medium Dogs (10-25 kg)", "price": 949}, {"name": "Bath & Dry", "audience": "Large Dogs (>25 kg)", "price": 1089}]}, {"group": "Complete Grooming", "bestseller": true, "note": "Includes: fur trim, paw & ear cleaning, bath & conditioning, dental cleaning*, blow dry, light brushing, sanitary trim. *Dental cleaning is excluded for cats.", "items": [{"name": "Complete Grooming \u2014 Short Coat", "audience": "Cats", "price": 1499}, {"name": "Complete Grooming \u2014 Short Coat", "audience": "Small Dogs (<10 kg)", "price": 1499}, {"name": "Complete Grooming \u2014 Short Coat", "audience": "Medium Dogs (10-25 kg)", "price": 1749}, {"name": "Complete Grooming \u2014 Short Coat", "audience": "Large Dogs (>25 kg)", "price": 1999}, {"name": "Complete Grooming \u2014 Long Coat", "audience": "Cats", "price": 1999}, {"name": "Complete Grooming \u2014 Long Coat", "audience": "Small Dogs (<10 kg)", "price": 1999}, {"name": "Complete Grooming \u2014 Long Coat", "audience": "Medium Dogs (10-25 kg)", "price": 2249}, {"name": "Complete Grooming \u2014 Long Coat", "audience": "Large Dogs (>25 kg)", "price": 2499}]}, {"group": "Quick Services", "note": "\u00c0 la carte grooming add-ons.", "items": [{"name": "Mouth & Dental Care", "audience": "Dogs", "price": 129}, {"name": "Eyes & Ears Cleaning", "audience": "Dogs & Cats", "price": 199}, {"name": "Nail Trimming & Filing", "audience": "Dogs & Cats", "price": 199}, {"name": "Nail Trim & Paw Care", "audience": "Dogs & Cats", "price": 299}, {"name": "Sanitary Area Grooming", "audience": "Dogs & Cats", "price": 399}, {"name": "Fur Trim", "audience": "Dogs & Cats", "price": 1199}, {"name": "Face Trim", "audience": "Dogs & Cats", "price": 399}]}, {"group": "Add-on Care", "note": "Note: Expert Styling is available as an add-on for long-coat breeds only, with Bath & Dry or Complete Routine.", "items": [{"name": "Expert Styling", "audience": "Dogs & Cats", "price": 599}, {"name": "Medicated Bath (Tick & Flea)", "audience": "Dogs & Cats", "price": 299}, {"name": "Medicated Bath (Fungal/Bacterial)", "audience": "Dogs & Cats", "price": 299}, {"name": "Dematting", "audience": "Dogs & Cats", "price": 599}, {"name": "Deshedding", "audience": "Dogs & Cats", "price": 599}]}];
+const SUBSCRIPTION_TABLES = [{"group": "Weekday Subscription \u2014 Bath & Dry", "savings": "Save up to 40%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b92999 (\u20b93996)", "\u20b92449 (\u20b93276)", "\u20b92849 (\u20b93796)", "\u20b93249 (\u20b94356)", "25%"], ["8-Session", "\u20b95599 (\u20b97992)", "\u20b94549 (\u20b96552)", "\u20b95299 (\u20b97592)", "\u20b96099 (\u20b98712)", "30%"], ["12-Session", "\u20b97199 (\u20b911988)", "\u20b95899 (\u20b99828)", "\u20b96799 (\u20b911388)", "\u20b97849 (\u20b913068)", "40%"]]}, {"group": "Weekday Subscription \u2014 Complete Grooming (Short Coat)", "savings": "Save up to 40%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b94499 (\u20b95996)", "\u20b94499 (\u20b95996)", "\u20b95249 (\u20b96996)", "\u20b95999 (\u20b97996)", "25%"], ["8-Session", "\u20b98399 (\u20b911992)", "\u20b98399 (\u20b911992)", "\u20b99799 (\u20b913992)", "\u20b911199 (\u20b915992)", "30%"], ["12-Session", "\u20b910799 (\u20b917988)", "\u20b910799 (\u20b917988)", "\u20b912599 (\u20b920988)", "\u20b914399 (\u20b923988)", "40%"]]}, {"group": "Weekday Subscription \u2014 Complete Grooming (Long Coat)", "savings": "Save up to 40%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b95997 (\u20b97996)", "\u20b95997 (\u20b97996)", "\u20b96747 (\u20b98996)", "\u20b97497 (\u20b99996)", "25%"], ["8-Session", "\u20b911194 (\u20b915992)", "\u20b911194 (\u20b915992)", "\u20b912594 (\u20b917992)", "\u20b913994 (\u20b919992)", "30%"], ["12-Session", "\u20b914393 (\u20b923988)", "\u20b914393 (\u20b923988)", "\u20b916193 (\u20b926988)", "\u20b917993 (\u20b929988)", "40%"]]}, {"group": "Anyday Subscription \u2014 Bath & Dry", "savings": "Save up to 20%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b93599 (\u20b93996)", "\u20b92949 (\u20b93276)", "\u20b93399 (\u20b93796)", "\u20b93899 (\u20b94356)", "10%"], ["8-Session", "\u20b96799 (\u20b97992)", "\u20b95559 (\u20b96552)", "\u20b96399 (\u20b97592)", "\u20b97399 (\u20b98712)", "15%"], ["12-Session", "\u20b99599 (\u20b911988)", "\u20b97859 (\u20b99828)", "\u20b99099 (\u20b911388)", "\u20b910399 (\u20b913068)", "20%"]]}, {"group": "Anyday Subscription \u2014 Complete Grooming (Short Coat)", "savings": "Save up to 20%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b95399 (\u20b95996)", "\u20b95399 (\u20b95996)", "\u20b96299 (\u20b96996)", "\u20b97199 (\u20b97996)", "10%"], ["8-Session", "\u20b910159 (\u20b911992)", "\u20b910159 (\u20b911992)", "\u20b911899 (\u20b913992)", "\u20b913599 (\u20b915992)", "15%"], ["12-Session", "\u20b914399 (\u20b917988)", "\u20b914399 (\u20b917988)", "\u20b916799 (\u20b920988)", "\u20b919199 (\u20b923988)", "20%"]]}, {"group": "Anyday Subscription \u2014 Complete Grooming (Long Coat)", "savings": "Save up to 20%", "columns": ["Package", "Cats", "Small Dogs (<10kg)", "Medium Dogs (10-25kg)", "Large Dogs (>25kg)", "Savings"], "rows": [["4-Session", "\u20b97196 (\u20b97996)", "\u20b97196 (\u20b97996)", "\u20b98096 (\u20b98996)", "\u20b98996 (\u20b99996)", "10%"], ["8-Session", "\u20b913593 (\u20b915992)", "\u20b913593 (\u20b915992)", "\u20b915923 (\u20b917992)", "\u20b916993 (\u20b919992)", "15%"], ["12-Session", "\u20b919190 (\u20b923988)", "\u20b919190 (\u20b923988)", "\u20b921590 (\u20b926988)", "\u20b923990 (\u20b929988)", "20%"]]}];
+
+(function(){
+  const tabOffersBtn = document.getElementById('tabOffersBtn');
+  const tabPackagesBtn = document.getElementById('tabPackagesBtn');
+  const tabServicesBtn = document.getElementById('tabServicesBtn');
+  const tabPocBtn = document.getElementById('tabPocBtn');
+  const tabLocationBtn = document.getElementById('tabLocationBtn');
+  const offersView = document.getElementById('offersView');
+  const packagesView = document.getElementById('packagesView');
+  const servicesView = document.getElementById('servicesView');
+  const pocView = document.getElementById('pocView');
+  const locationView = document.getElementById('locationView');
+
+  function showTab(which){
+    tabOffersBtn.classList.toggle('active', which==='offers');
+    tabPackagesBtn.classList.toggle('active', which==='packages');
+    tabServicesBtn.classList.toggle('active', which==='services');
+    tabPocBtn.classList.toggle('active', which==='poc');
+    tabLocationBtn.classList.toggle('active', which==='location');
+    offersView.style.display = which==='offers' ? '' : 'none';
+    packagesView.style.display = which==='packages' ? '' : 'none';
+    servicesView.style.display = which==='services' ? '' : 'none';
+    pocView.style.display = which==='poc' ? '' : 'none';
+    locationView.style.display = which==='location' ? '' : 'none';
+  }
+  tabOffersBtn.addEventListener('click', () => showTab('offers'));
+  tabPackagesBtn.addEventListener('click', () => showTab('packages'));
+  tabServicesBtn.addEventListener('click', () => showTab('services'));
+  tabPocBtn.addEventListener('click', () => showTab('poc'));
+  tabLocationBtn.addEventListener('click', () => showTab('location'));
+
+  const pkgSearchEl = document.getElementById('pkgSearch');
+  const pkgCategoryEl = document.getElementById('pkgCategoryFilter');
+  const pkgGroupEl = document.getElementById('pkgGroupFilter');
+  const pkgClearBtn = document.getElementById('pkgClearBtn');
+  const pkgResultsEl = document.getElementById('pkgResults');
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  // groups list per category, in display order
+  const WELLNESS_GROUPS = WELLNESS_PACKAGES.map(g => g.group);
+  const GROOMING_GROUPS = SUBSCRIPTION_TABLES.map(g => g.group);
+
+  function refreshGroupOptions(){
+    const cat = pkgCategoryEl.value;
+    let groups = [];
+    if(cat === 'Wellness') groups = WELLNESS_GROUPS;
+    else if(cat === 'Grooming') groups = GROOMING_GROUPS;
+    else groups = WELLNESS_GROUPS.concat(GROOMING_GROUPS);
+    const current = pkgGroupEl.value;
+    pkgGroupEl.innerHTML = '<option value="">All</option>' + groups.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
+    if(groups.includes(current)) pkgGroupEl.value = current;
+  }
+
+  function pkgCardHtml(item, groupNote){
+    const mrpHtml = item.mrp ? `<span class="pkg-mrp">₹${item.mrp.toLocaleString('en-IN')}</span>` : '';
+    const offHtml = item.off ? `<span class="pkg-off">${escapeHtml(item.off)}</span>` : '';
+    const skuHtml = item.sku ? `<div class="pkg-sku">SKU: ${escapeHtml(item.sku)}</div>` : '';
+    const inclHtml = item.inclusions ? `<ul>${item.inclusions.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>` : '';
+    const perkHtml = item.perk ? `<div class="pkg-perk">✨ ${escapeHtml(item.perk)}</div>` : '';
+    return `
+      <div class="pkg-card">
+        <div class="pkg-card-top">
+          <div class="pkg-name">${escapeHtml(item.name)}</div>
+          ${offHtml}
+        </div>
+        <div class="pkg-audience">${escapeHtml(item.audience || '')}</div>
+        <div class="pkg-price-row">
+          <span class="pkg-price">₹${item.price.toLocaleString('en-IN')}</span>
+          ${mrpHtml}
+        </div>
+        ${skuHtml}
+        <div class="pkg-divider"></div>
+        <div class="pkg-body">
+          ${inclHtml}
+          ${perkHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function pkgTableHtml(t){
+    return `
+      <div class="pkg-table-wrap">
+        <table class="pkg-table">
+          <thead><tr>${t.columns.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+          <tbody>
+            ${t.rows.map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function matchesSearch(hay, q){
+    return !q || hay.toLowerCase().includes(q);
+  }
+
+  function renderPackages(){
+    const q = pkgSearchEl.value.trim().toLowerCase();
+    const cat = pkgCategoryEl.value;
+    const group = pkgGroupEl.value;
+    let html = '';
+    let anyRendered = false;
+
+    if(!cat || cat === 'Wellness'){
+      WELLNESS_PACKAGES.forEach(g => {
+        if(group && g.group !== group) return;
+        const items = g.items.filter(item => {
+          const hay = [item.name, item.audience, item.sku, (item.inclusions||[]).join(' ')].join(' ');
+          return matchesSearch(hay, q);
+        });
+        if(items.length === 0) return;
+        anyRendered = true;
+        html += `
+          <div class="pkg-group">
+            <div class="pkg-group-head"><h2>${escapeHtml(g.group)}</h2></div>
+            <p class="pkg-group-note">${escapeHtml(g.note || '')}</p>
+            <div class="pkg-grid">${items.map(i => pkgCardHtml(i)).join('')}</div>
+          </div>
+        `;
+      });
+    }
+
+    if(!cat || cat === 'Grooming'){
+      SUBSCRIPTION_TABLES.forEach(t => {
+        if(group && t.group !== group) return;
+        if(q && !t.group.toLowerCase().includes(q)) return;
+        anyRendered = true;
+        html += `
+          <div class="pkg-group">
+            <div class="pkg-group-head"><h2>${escapeHtml(t.group)}</h2><span class="pkg-savings-badge">${escapeHtml(t.savings)}</span></div>
+            ${pkgTableHtml(t)}
+          </div>
+        `;
+      });
+    }
+
+    if(!anyRendered){
+      pkgResultsEl.innerHTML = `<div class="empty-state"><div class="big">🔎</div><h3>No packages match</h3><p>Try clearing a filter or checking the spelling of your search.</p></div>`;
+    } else {
+      pkgResultsEl.innerHTML = html;
+    }
+  }
+
+  pkgCategoryEl.addEventListener('change', () => {
+    refreshGroupOptions(); renderPackages();
+    document.querySelectorAll('#pkgQuickNav .pkg-quicknav-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === pkgCategoryEl.value));
+  });
+  pkgGroupEl.addEventListener('change', renderPackages);
+  pkgSearchEl.addEventListener('input', renderPackages);
+  pkgClearBtn.addEventListener('click', () => {
+    pkgSearchEl.value=''; pkgCategoryEl.value=''; refreshGroupOptions(); renderPackages();
+    document.querySelectorAll('#pkgQuickNav .pkg-quicknav-btn').forEach(b => b.classList.toggle('active', b.dataset.cat===''));
+  });
+
+  // Quick-nav pills (All / Wellness / Grooming) — the explicit "grooming package, separately" switch
+  document.getElementById('pkgQuickNav').addEventListener('click', (e) => {
+    const btn = e.target.closest('.pkg-quicknav-btn');
+    if(!btn) return;
+    document.querySelectorAll('#pkgQuickNav .pkg-quicknav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    pkgCategoryEl.value = btn.dataset.cat;
+    pkgGroupEl.value = '';
+    refreshGroupOptions();
+    renderPackages();
+  });
+
+  refreshGroupOptions();
+  renderPackages();
+})();
+</script>
+
+<script>
+// ============================================================
+// SERVICES TAB — standalone à la carte pricing (Consultation / Vaccination / Grooming)
+// Distinct from Packages, which are bundled combos.
+// ============================================================
+const CONSULTATION_PRICES = [
+  {
+    name: "Consultation",
+    price: 599,
+    tag: "Standard Visit",
+    desc: "Standard in-clinic veterinary consultation for any new concern, illness, or routine check-up."
+  },
+  {
+    name: "Follow-up Consultation",
+    price: 399,
+    tag: "Within 7 days",
+    desc: "Applies only when the follow-up visit is within 7 days of the original consultation, for the same issue. Outside this window, or for a different/new issue, the full Consultation price (₹599) applies."
+  }
+];
+
+const VACCINATION_PRICES = [
+  {sku:"TMPVV0002STOF", name:"Felocell – Feline", route:"SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:1399,
+   desc:"Core vaccine for cats, protecting against common feline diseases such as feline rhinotracheitis, calicivirus, and panleukopenia (feline distemper). Essential for maintaining a cat's overall health and preventing severe, potentially life-threatening illnesses."},
+  {sku:"TMPVV0003STOF", name:"Tricat – Feline", route:"SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:1399,
+   desc:"Combination vaccine protecting cats against three major diseases: feline rhinotracheitis, calicivirus, and panleukopenia. Particularly effective for early kitten immunity and continued protection for adult cats as part of a routine schedule."},
+  {sku:"TMPVV0004STOF", name:"Kennel Cough Vaccine – Canine", route:"I/N", dose:"0.3ml", presentation:"0.3ml/vial", validity:"6 months", price:1299,
+   desc:"Safeguards dogs from kennel cough, a contagious respiratory infection caused by Bordetella bronchiseptica and canine parainfluenza virus. Commonly required for dogs attending daycare, boarding, or training facilities."},
+  {sku:"TMPVV0005STOF", name:"ARV – Canine and Feline", route:"IM/SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:599,
+   desc:"Anti-Rabies Vaccine (ARV), crucial for both dogs and cats — protects against rabies, a fatal viral disease that can affect animals and humans. Often legally mandated."},
+  {sku:"TMPVV0006STOF", name:"Vanguard 5 L4 – Canine", route:"SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:1499,
+   desc:"Combination vaccine for dogs protecting against five core diseases: canine distemper, adenovirus (hepatitis), parvovirus, parainfluenza, and leptospirosis (four strains)."},
+  {sku:"TMPVV0007STOF", name:"Vanguard CV – Canine", route:"SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:849,
+   desc:"Protects dogs against canine coronavirus, which can cause gastrointestinal distress and diarrhea, particularly in puppies."},
+  {sku:"TMPVV0008STOF", name:"Vanguard 5 L4 CV – Canine", route:"SC", dose:"1ml", presentation:"1ml/vial", validity:"12 months", price:2299,
+   desc:"Extended combination vaccine offering protection against canine distemper, adenovirus, parvovirus, parainfluenza, leptospirosis (four strains), and coronavirus — comprehensive immunity for dogs at higher exposure risk."},
+];
+
+const GROOMING_GUIDELINES = [
+  {
+    icon: "💉",
+    title: "Vaccination Requirement",
+    points: [
+      "A pet must have all mandatory vaccinations completed, including annual booster vaccinations, before a grooming appointment can be accepted.",
+      "Grooming cannot be performed if the pet's vaccination records are incomplete."
+    ]
+  },
+  {
+    icon: "🩹",
+    title: "Skin Conditions",
+    points: [
+      "If the pet has any skin infection, rashes, wounds, or other dermatological concerns, the pet parent must inform the clinic before booking the grooming appointment.",
+      "The doctor may recommend a health check before proceeding with grooming."
+    ]
+  },
+  {
+    icon: "⚠️",
+    title: "Hyperactive or Aggressive Pets",
+    points: [
+      "If a pet is hyperactive, aggressive, or does not cooperate during grooming, the pet parent must inform the clinic while booking the appointment.",
+      "A consultation call with the doctor may be arranged before the appointment.",
+      "Based on the doctor's assessment, calming medication (such as Gabapentin, if appropriate) may be prescribed to be administered before the grooming appointment."
+    ]
+  },
+  {
+    icon: "🐶",
+    title: "Puppies Below Four Months",
+    points: [
+      "For puppies under 4 months of age, a wet bath is not recommended.",
+      "Only a dry bath can be provided, as advised by the veterinarians."
+    ]
+  }
+];
+
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  const svcQuickNav = document.getElementById('svcQuickNav');
+  const svcResultsEl = document.getElementById('svcResults');
+
+  function consultationHtml(){
+    return `
+      <div class="pkg-group">
+        <div class="pkg-group-head"><h2>Consultation Pricing</h2></div>
+        <p class="pkg-group-note">Standalone vet consultation charges — not part of a bundled package.</p>
+        <div class="svc-price-grid">
+          ${CONSULTATION_PRICES.map(c => `
+            <div class="svc-price-card">
+              <div class="svc-tag">${esc(c.tag)}</div>
+              <div class="svc-name">${esc(c.name)}</div>
+              <div class="svc-price">₹${c.price.toLocaleString('en-IN')}</div>
+              <div class="svc-desc">${esc(c.desc)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function vaccinationHtml(){
+    const rows = VACCINATION_PRICES.map(v => `
+      <tr>
+        <td>${esc(v.sku)}</td>
+        <td>${esc(v.name)}</td>
+        <td>${esc(v.route)}</td>
+        <td>${esc(v.dose)}</td>
+        <td>${esc(v.validity)}</td>
+        <td>₹${v.price.toLocaleString('en-IN')}</td>
+      </tr>
+      <tr>
+        <td colspan="6" style="white-space:normal; font-size:12px; color:var(--ink-soft); padding-top:0; padding-bottom:14px; border-top:none;">${esc(v.desc)}</td>
+      </tr>
+    `).join('');
+    return `
+      <div class="pkg-group">
+        <div class="pkg-group-head"><h2>Vaccination Pricing</h2></div>
+        <p class="pkg-group-note">Individual vaccine pricing by SKU. All vendor: Supertails+ Clinic. Product Type: Vaccination.</p>
+        <div class="pkg-table-wrap">
+          <table class="pkg-table">
+            <thead><tr><th>SKU</th><th>Vaccine</th><th>Route</th><th>Dose</th><th>Validity</th><th>Price</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  function guidelinesHtml(){
+    return `
+      <div class="pkg-group">
+        <div class="pkg-group-head"><h2>Grooming Guidelines &amp; Eligibility</h2></div>
+        <p class="pkg-group-note">Check these before confirming a grooming booking — some pets need a doctor's sign-off first.</p>
+        <div class="guideline-grid">
+          ${GROOMING_GUIDELINES.map(g => `
+            <div class="guideline-card">
+              <div class="guideline-icon">${g.icon}</div>
+              <div class="guideline-title">${esc(g.title)}</div>
+              <ul class="guideline-points">
+                ${g.points.map(p => `<li>${esc(p)}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function groomingHtml(){
+    let html = '';
+    GROOMING_PACKAGE_CARDS.forEach(g => {
+      const badge = g.bestseller ? '<span class="bestseller-badge">Bestseller</span>' : '';
+      html += `
+        <div class="pkg-group">
+          <div class="pkg-group-head"><h2>${esc(g.group)}</h2>${badge}</div>
+          <p class="pkg-group-note">${esc(g.note || '')}</p>
+          <div class="svc-price-grid">
+            ${g.items.map(item => `
+              <div class="svc-price-card">
+                <div class="svc-name">${esc(item.name)}</div>
+                <div class="svc-desc" style="margin-bottom:8px;">${esc(item.audience || '')}</div>
+                <div class="svc-price">₹${item.price.toLocaleString('en-IN')}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+    html += `<p class="pkg-group-note" style="margin-top:6px;">Looking for multi-session grooming subscriptions (Weekday/Anyday) instead of single visits? See the <b>Packages</b> tab → Grooming Packages.</p>`;
+    html += guidelinesHtml();
+    return html;
+  }
+
+  function renderServices(which){
+    if(which === 'Consultation') svcResultsEl.innerHTML = consultationHtml();
+    else if(which === 'Vaccination') svcResultsEl.innerHTML = vaccinationHtml();
+    else svcResultsEl.innerHTML = groomingHtml();
+  }
+
+  svcQuickNav.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pkg-quicknav-btn');
+    if(!btn) return;
+    svcQuickNav.querySelectorAll('.pkg-quicknav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderServices(btn.dataset.svc);
+  });
+
+  renderServices('Consultation');
+})();
+</script>
+
+<script>
+// ============================================================
+// CLINIC POC — local clinic contact + escalation chain
+// ============================================================
+const CLINIC_POC = [
+  {clinic:"Hosa Road", lat:12.8998, lng:77.6413, number:"88679 44007", manager:"Pamela Majumder", email:"pamela.mlovespets@supertails.in", phone:"8240440527", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"Ground Floor, Athira Heights, 795A, NH 44, AECS Layout, Singasandra, Bengaluru, Karnataka 560114", hours:"10 AM – 7 PM"},
+  {clinic:"Bannerghatta", lat:12.8845, lng:77.5972, number:"99028 57395", manager:"Dheeraj", email:"dheeraj.rlovespets@supertails.in", phone:"8850335710", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"29/2, Bannerghatta Rd, Vijayashri Layout, Syndicate Bank Colony, Omkar Nagar, Hulimavu, Bengaluru, Karnataka 560076", hours:"9 AM – 10 PM · All days"},
+  {clinic:"Banashankari", lat:12.9280, lng:77.5490, number:"80502 12988", manager:"Kumar T", email:"kumar.t@supertails.in", phone:"9591545550", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"1587, 36th Cross, Outer Ring Rd, Banashankari 2nd Stage, Banashankari, Bengaluru, Karnataka 560070", hours:"9 AM – 10 PM · All days"},
+  {clinic:"Brookfield", lat:12.9650, lng:77.7130, number:"80502 12079", manager:"Shilo", email:"shilolovespets@supertails.in", phone:"9731921412", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"Ground Floor, Site No. 2, No. 6/4, Kundalahalli Main Rd, opposite Smart Bazar, Lakshminarayana Pura, AECS Layout, Munnekolala, Bengaluru, Karnataka 560037", hours:"9 AM – 10 PM · All days"},
+  {clinic:"Whitefield", lat:12.9698, lng:77.75, number:"80501 78007", manager:"Abhilash", email:"abhilash.mlovespets@supertails.in", phone:"7899386409", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"Shubhtaa Towwers, Site No. 10, Prashant Layout ITPL, Whitefield Main Rd, Bengaluru, Karnataka 560066", hours:"9 AM – 10 PM · All days"},
+  {clinic:"KR Puram", lat:12.9975, lng:77.698, number:"80502 23007", manager:"Deepak Alwin", email:"deepak.alovespets@supertails.in", phone:"7019850360", zone:"South & East", zonalHead:"Niraj Manani",
+   address:"646/1A and 646/1B, Athithi Layout, S.T Halli, Bhattarahalli, Krishnarajapuram, Bengaluru, Karnataka 560036", hours:"10 AM – 7 PM"},
+  {clinic:"RMV", lat:13.0278, lng:77.5698, number:"80501 45007", manager:"Aishwarya", email:"aishwarya.klovespets@supertails.in", phone:"6364431121", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:"Ground Floor, No. 7, Balaji Arcade, New BEL Rd, opposite HP Petrol Bunk, Chikkamaranahalli, Dollars Colony, R.M.V. 2nd Stage, Bengaluru, Karnataka 560094", hours:"10 AM – 7 PM"},
+  {clinic:"Rajaji Nagar", lat:12.9985, lng:77.5570, number:"99028 57893", manager:"Saji R", email:"saji.rlovespets@supertails.in", phone:"9743789001", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:"7, 2nd Cross Rd, D-Block, Gayatrinagar, Rajajinagar, Bengaluru, Karnataka 560010", hours:"9 AM – 10 PM · All days"},
+  {clinic:"RT Nagar", lat:13.023, lng:77.595, number:"89048 04007", manager:"Abhilash M", email:"abhilash.mlovespets@supertails.in", phone:"7899386409", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:"First Floor, No. 160, RT Nagar Main Rd, Phase 3, Matadahalli, Krishnappa Block, Ganganagar, Bengaluru, Karnataka 560032", hours:"10 AM – 7 PM"},
+  {clinic:"Koramangala", lat:12.9352, lng:77.6245, number:"80502 13620", manager:"Md Zabi", email:"mohammed.zabiullahlovespets@supertails.in", phone:"7892880441", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:"156, 1st Cross Rd, 1st Block Koramangala, Koramangala, Bengaluru, Karnataka 560034", hours:"9 AM – 10 PM · All days"},
+  {clinic:"Kalyan Nagar", lat:13.018, lng:77.639, number:"99028 59265", manager:"Kumar T", email:"kumar.t@supertails.in", phone:"9591545550", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:"IGN Towers, Dodda Banaswadi Main Rd, Ram Gopal Layout, Subbannaiah Palya, Banaswadi, Bengaluru, Karnataka 560033", hours:"Open 24 hours"},
+  {clinic:"Indiranagar", lat:12.9719, lng:77.6412, number:"80501 98007", manager:"Dinesh", email:"dinesh.rlovespets@supertails.in", phone:"8892242271", zone:"North & Central", zonalHead:"Akshay Amrith",
+   address:null, hours:"9 AM – 10 PM · All days"},
+];
+
+// Approximate coordinates for common Bangalore localities, used to find the nearest clinic
+// from a customer-stated area. Not exhaustive — if an area isn't listed, the agent can try
+// a nearby well-known landmark instead.
+const BANGALORE_AREAS = {
+  "btm layout": [12.9250, 77.6086], "btm": [12.9250, 77.6086],
+  "silk board": [12.9172, 77.6228], "silk board junction": [12.9172, 77.6228],
+  "hsr layout": [12.9116, 77.6389], "hsr": [12.9116, 77.6389],
+  "jp nagar": [12.9077, 77.5851],
+  "jayanagar": [12.9250, 77.5938],
+  "basavanagudi": [12.9422, 77.5760],
+  "malleshwaram": [13.0099, 77.5692], "malleshwaram 18th cross": [13.0099, 77.5692],
+  "yelahanka": [13.1007, 77.5963],
+  "hebbal": [13.0355, 77.5971],
+  "marathahalli": [12.9569, 77.7011],
+  "sarjapur road": [12.9010, 77.6874], "sarjapur": [12.9010, 77.6874],
+  "electronic city": [12.8452, 77.6602], "electronic city phase 1": [12.8452, 77.6602], "electronic city phase 2": [12.8399, 77.6770],
+  "hal": [12.9508, 77.6684],
+  "domlur": [12.9609, 77.6387],
+  "ulsoor": [12.9815, 77.6205],
+  "frazer town": [12.9967, 77.6120],
+  "vijayanagar": [12.9719, 77.5372],
+  "jalahalli": [13.0464, 77.5478],
+  "peenya": [13.0281, 77.5201],
+  "yeshwanthpur": [13.0284, 77.5540],
+  "sadashivanagar": [13.0068, 77.5813],
+  "cox town": [12.9932, 77.6183],
+  "cunningham road": [12.9884, 77.5966],
+  "sahakar nagar": [13.0625, 77.5836],
+  "vidyaranyapura": [13.0762, 77.5566],
+  "nagawara": [13.0400, 77.6220],
+  "hbr layout": [13.0270, 77.6280],
+  "horamavu": [13.0248, 77.6544],
+  "cv raman nagar": [12.9836, 77.6650],
+  "bellandur": [12.9257, 77.6779],
+  "jakkur": [13.0784, 77.6122],
+  "thanisandra": [13.0570, 77.6280],
+  "hennur": [13.0330, 77.6390],
+  "banaswadi": [13.0140, 77.6510],
+  "kammanahalli": [13.0143, 77.6377],
+  "kaggadasapura": [12.9880, 77.6710],
+  "bommanahalli": [12.9007, 77.6180],
+  "konanakunte": [12.8813, 77.5710],
+  "uttarahalli": [12.9083, 77.5460],
+  "rr nagar": [12.9270, 77.5170], "rajarajeshwari nagar": [12.9270, 77.5170],
+  "kengeri": [12.9081, 77.4855],
+  "chamrajpet": [12.9550, 77.5710],
+  "shivajinagar": [12.9850, 77.6050],
+  "mg road": [12.9757, 77.6068],
+  "richmond town": [12.9634, 77.6070],
+  "wilson garden": [12.9503, 77.5940],
+  "lalbagh": [12.9507, 77.5848],
+  "mathikere": [13.0330, 77.5620],
+  "rmv extension": [13.0180, 77.5750],
+  "vijayanagara": [12.9719, 77.5372],
+  "kammagondanahalli": [13.0345, 77.5310],
+  "electronics city": [12.8452, 77.6602],
+  "hoodi": [12.9908, 77.7180],
+  "varthur": [12.9412, 77.7405],
+  "kadugodi": [12.9930, 77.7650],
+  "devanahalli": [13.2437, 77.7124],
+  "jp nagar 7th phase": [12.8890, 77.5860],
+  "jp nagar 6th phase": [12.8940, 77.5810],
+  "koramangala 4th block": [12.9352, 77.6245],
+  "koramangala 5th block": [12.9352, 77.6245],
+  "koramangala 6th block": [12.9250, 77.6350],
+  "sanjaynagar": [13.0230, 77.5810],
+  "malleswaram": [13.0099, 77.5692],
+  // Areas that are also Supertails+ clinic locations themselves
+  "koramangala": [12.9352, 77.6245],
+  "whitefield": [12.9698, 77.7500],
+  "banashankari": [12.9280, 77.5490],
+  "indiranagar": [12.9719, 77.6412],
+  "rajajinagar": [12.9985, 77.5570], "rajaji nagar": [12.9985, 77.5570],
+  "kalyan nagar": [13.0180, 77.6390],
+  "rt nagar": [13.0230, 77.5950],
+  "bannerghatta": [12.8845, 77.5972], "bannerghatta road": [12.8845, 77.5972],
+  "brookfield": [12.9650, 77.7130], "munnekolala": [12.9650, 77.7130],
+  "hosa road": [12.8998, 77.6413], "hosur road": [12.8998, 77.6413], "singasandra": [12.8998, 77.6413],
+  "rmv": [13.0278, 77.5698], "rmv extension 2nd stage": [13.0278, 77.5698], "dollars colony": [13.0278, 77.5698],
+  "kr puram": [12.9975, 77.6980], "krishnarajapuram": [12.9975, 77.6980],
+};
+
+const ESCALATION_CHAIN = [
+  {level:"Level 2", role:"Zonal Head — South & East", name:"Niraj Manani", email:"niraj.mlovespets@supertails.com", phone:"8160520680"},
+  {level:"Level 2", role:"Zonal Head — North & Central", name:"Akshay Amrith", email:"akshay.alovespets@supertails.com", phone:"9972650546"},
+  {level:"Level 3", role:"City Operations Head — Bangalore", name:"Sumeet Bhat", email:"sumeetlovespets@supertails.com", phone:"7303523001"},
+  {level:"Level 4", role:"HOD", name:"Harsh Chandak", email:"harshlovespets@supertails.com", phone:"8692917727"},
+];
+
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  const pocSearchEl = document.getElementById('pocSearch');
+  const pocClearBtn = document.getElementById('pocClearBtn');
+  const pocResultsEl = document.getElementById('pocResults');
+
+  function clinicCardHtml(c){
+    const zoneHtml = c.zone
+      ? `<div class="svc-desc" style="margin:8px 0 0; padding-top:8px; border-top:1px dashed var(--line-strong);">
+           Zone: <b>${esc(c.zone)}</b> — escalate to <b>${esc(c.zonalHead)}</b>
+         </div>`
+      : `<div class="svc-desc" style="margin:8px 0 0; padding-top:8px; border-top:1px dashed var(--line-strong); color:var(--ink-faint); font-style:italic;">
+           Zone not yet assigned — see Escalation Chain below
+         </div>`;
+    return `
+      <div class="svc-price-card">
+        <div class="svc-tag">Level 1 · Clinic</div>
+        <div class="svc-name">${esc(c.clinic)}</div>
+        <div class="svc-desc" style="margin:8px 0 4px;">
+          📞 Clinic line: <b>${esc(c.number)}</b>
+        </div>
+        <div class="svc-desc" style="margin:0;">
+          Central Manager: <b>${esc(c.manager)}</b><br>
+          📱 ${esc(c.phone)}<br>
+          ✉️ ${esc(c.email)}
+        </div>
+        ${zoneHtml}
+      </div>
+    `;
+  }
+
+  function locationCardHtml(c){
+    const addressHtml = c.address
+      ? `<div class="svc-desc" style="margin:8px 0 0;">📍 ${esc(c.address)}</div>`
+      : `<div class="svc-desc" style="margin:8px 0 0; color:var(--ink-faint); font-style:italic;">📍 Address not confirmed yet</div>`;
+    const hoursHtml = c.hours
+      ? `<div class="svc-desc" style="margin:8px 0 0; padding-top:8px; border-top:1px dashed var(--line-strong);">🕒 <b>${esc(c.hours)}</b></div>`
+      : '';
+    const dirLink = c.address
+      ? `<div class="svc-desc" style="margin:8px 0 0;"><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.clinic + ' Supertails ' + c.address)}" target="_blank" rel="noopener" style="color:var(--lime-deep); font-weight:700; text-decoration:none;">🗺️ Get Directions →</a></div>`
+      : '';
+    return `
+      <div class="svc-price-card">
+        <div class="svc-tag">Clinic Location</div>
+        <div class="svc-name">${esc(c.clinic)}</div>
+        ${addressHtml}
+        ${hoursHtml}
+        ${dirLink}
+      </div>
+    `;
+  }
+
+  function escalationCardHtml(e){
+    const contactNote = '<div class="svc-desc" style="margin:0 0 8px; font-size:11.5px; color:var(--ink-faint); font-style:italic;">Email only — do not call directly.</div>';
+    return `
+      <div class="svc-price-card">
+        <div class="svc-tag">${esc(e.level)}</div>
+        <div class="svc-name">${esc(e.name)}</div>
+        <div class="svc-desc" style="margin:2px 0 8px; font-weight:600;">${esc(e.role)}</div>
+        ${contactNote}
+        <div class="svc-desc" style="margin:0;">
+          📱 ${esc(e.phone)}<br>
+          ✉️ ${esc(e.email)}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPoc(){
+    const q = pocSearchEl.value.trim().toLowerCase();
+    const filtered = CLINIC_POC.filter(c => {
+      const hay = [c.clinic, c.manager, c.number, c.phone, c.address || ''].join(' ').toLowerCase();
+      return !q || hay.includes(q);
+    });
+
+    let html = '';
+    html += `
+      <div class="pkg-group">
+        <div class="pkg-group-head"><h2>Clinic Directory</h2></div>
+        <p class="pkg-group-note">Level 1 contact — call the clinic directly, or the Central Manager if the clinic line doesn't pick up.</p>
+        <div class="svc-price-grid">
+          ${filtered.length ? filtered.map(clinicCardHtml).join('') : '<div class="empty-state"><div class="big">🔍</div><h3>No clinic matches</h3><p>Try a different search term.</p></div>'}
+        </div>
+      </div>
+    `;
+
+    if(filtered.length){
+      // (Clinic Locations now lives in its own tab — see renderLocations)
+    }
+
+    if(!q){
+      html += `
+        <div class="pkg-group">
+          <div class="pkg-group-head"><h2>Escalation Chain</h2></div>
+          <p class="pkg-group-note">If Level 1 (clinic / central manager) is unreachable, escalate in order: Zonal Head → City Operations Head → HOD. Phone calls are only for the Clinic Manager (Level 1) — escalation from Zonal Head upward should go by email, not a direct call.</p>
+          <div class="svc-price-grid">
+            ${ESCALATION_CHAIN.map(escalationCardHtml).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    pocResultsEl.innerHTML = html;
+  }
+
+  pocSearchEl.addEventListener('input', renderPoc);
+  pocClearBtn.addEventListener('click', () => { pocSearchEl.value=''; renderPoc(); });
+
+  renderPoc();
+
+  const locSearchEl = document.getElementById('locSearch');
+  const locClearBtn = document.getElementById('locClearBtn');
+  const locResultsEl = document.getElementById('locResults');
+
+  function renderLocations(){
+    const q = locSearchEl.value.trim().toLowerCase();
+    const filtered = CLINIC_POC.filter(c => {
+      const hay = [c.clinic, c.address || ''].join(' ').toLowerCase();
+      return !q || hay.includes(q);
+    });
+    locResultsEl.innerHTML = `
+      <div class="pkg-group">
+        <div class="pkg-group-head"><h2>All Clinic Locations</h2></div>
+        <p class="pkg-group-note">Tap "Get Directions" to open the clinic in Google Maps.</p>
+        <div class="svc-price-grid">
+          ${filtered.length ? filtered.map(locationCardHtml).join('') : '<div class="empty-state"><div class="big">🔍</div><h3>No clinic matches</h3><p>Try a different search term.</p></div>'}
+        </div>
+      </div>
+    `;
+  }
+  locSearchEl.addEventListener('input', renderLocations);
+  locClearBtn.addEventListener('click', () => { locSearchEl.value=''; renderLocations(); });
+
+  renderLocations();
+
+  // ============================================================
+  // FIND NEAREST CLINIC — from a customer-stated Bangalore area
+  // ============================================================
+})();
+</script>
+<script>
+(function(){
+  var header = document.querySelector('header');
+  var bodyZone = document.getElementById('bodyZone');
+  var btn = document.getElementById('themeToggle');
+
+  function applySwap(swapped){
+    if(swapped){
+      header.setAttribute('data-theme', 'dark');
+      bodyZone.removeAttribute('data-theme');
+      btn.textContent = '☀️';
+      btn.title = 'Switch back to light header / dark body';
+    } else {
+      header.removeAttribute('data-theme');
+      bodyZone.setAttribute('data-theme', 'dark');
+      btn.textContent = '🌙';
+      btn.title = 'Switch to dark header / light body';
+    }
+  }
+
+  var saved = null;
+  try{ saved = localStorage.getItem('agentdesk-zone-swap'); }catch(e){}
+  var swapped = saved === '1';
+  applySwap(swapped);
+
+  btn.addEventListener('click', function(){
+    swapped = !swapped;
+    applySwap(swapped);
+    try{ localStorage.setItem('agentdesk-zone-swap', swapped ? '1' : '0'); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
